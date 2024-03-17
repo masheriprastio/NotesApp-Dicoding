@@ -7,6 +7,7 @@ export default class NoteInput extends React.Component {
         this.state = {
             title: '',
             body: '',
+            statusMessage: ''
         }
 
         this.onTitleChangeEventHandler = this.onTitleChangeEventHandler.bind(this);
@@ -33,12 +34,22 @@ export default class NoteInput extends React.Component {
     onSubmitEventHandler(event) {
         event.preventDefault();
         this.props.addNote(this.state);
-        console.log(this.state)
+        console.log(this.state);
+        this.setState({
+            statusMessage: 'Berhasil menambahkan catatan'
+        });
+        setTimeout(() => {
+            this.setState({
+                statusMessage: ''
+            });
+        }, 3000); // Hapus pesan setelah 3 detik
     }
+    
 
     render() {
         return (
             <form className='note-input' onSubmit={this.onSubmitEventHandler}>
+                {this.state.statusMessage && <p className="status-message">{this.state.statusMessage}</p>}
                 
                 <h2><img src="images/icon-create.png"></img>Buat Catatan</h2>
                 <p className='note-input__title__char-limit'>sisa karakter : {50-this.state.title.length}</p>
